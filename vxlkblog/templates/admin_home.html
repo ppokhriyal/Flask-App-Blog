@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+	{% block content %}
+		<div class="card bg-secondary text-white col-md-10 mx-auto rounded-0">
+    		<div class="card-body">
+    			<h5>Administrator Dashboard</h5>
+    			<small>Total Users : {{ users_count }}</small>
+    		</div>
+  		</div>
+  		{% for emails,posts in user_dict.items() %}
+  			<div class="card bg-light text-dark col-md-10 mx-auto rounded-0">
+  				<div class="card-body">
+  					{{ emails }}
+            <form action="{{ url_for('delete_user',user_del_email=emails)}}" method="POST">
+              <input class="btn btn-sm btn-danger float-right mt-1" type="submit" value="Delete" name="Delete">
+            </form>
+            <form action="{{url_for('user_info_update',user_info_email=emails)}}" method="POST">
+              <input type="submit" value="Reset Password" name="Update" class="btn btn-sm btn-secondary float-right m-1">
+            </form>
+              
+              <button type="button" class="btn btn-primary btn-sm float-right m-1">Posts <span class="badge badge-light">{{ posts }}</span></button>
+  				</div>
+  			</div>
+  		{% endfor %}	
+	{% endblock content %}

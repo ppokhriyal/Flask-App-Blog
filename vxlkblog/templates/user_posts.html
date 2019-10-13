@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+	{% block content %}
+  <div class="card bg-light text-dark mt-4">
+    <div class="card-body"><h5>Posts by {{ user.username }} ({{ posts.total }})</h5></div>
+  </div>
+  
+		{% for post in posts.items %}
+			<div class="media border rounded p-3 bg-light mt-3">
+    			<img src="{{ url_for('static',filename='profile_pics/'+ post.author.image_file) }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+    			<div class="media-body">
+    				<h4><a class="article-title" href="{{ url_for('post',post_id=post.id)}}">{{ post.title }}</a></h4>
+      				<small class="text-secondary"><a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a> | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="#"><span class="badge badge-pill badge-warning">{{ post.category }}</a></span></small>
+      				<p class="text-justify mt-3 pt-2 border-top">{{ post.content }}</p>      
+    			</div>
+  			</div>
+		{% endfor %}
+    {% for page_num in posts.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+      {% if page_num %}
+        {% if posts.page == page_num %}
+          <a class="btn btn-info mb-4 mt-3" href="{{ url_for('user_posts',username=user.username,page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <a class="btn btn-outline-info mb-4 mt-3" href="{{ url_for('user_posts',username=user.username,page=page_num)}}">{{ page_num }}</a>
+        {% endif %}  
+      {% else %}
+        ...
+      {% endif %}
+    {% endfor %}
+	{% endblock content %}	
