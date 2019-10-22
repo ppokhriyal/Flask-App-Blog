@@ -113,23 +113,34 @@ def account():
 @app.route('/post/new',methods=['GET','POST'])
 @login_required
 def new_post():
-		form = PostForm()
-  	allowed_tags = [ 'a', 'abbr', 'acronym', 'b', 'blockquote', 'code','em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'img','h1', 'h2', 'h3', 'p', 'br' ]
-  	allowed_attrs = {'*': ['class'],'a': ['href', 'rel'],'img': ['src', 'alt'] }
-
+	form = PostForm()
 	if form.validate_on_submit():
 		session['content'] = request.form['content']
 		html = markdown.markdown(request.form['content'])
-		html_sanitized = bleach.clean(bleach.linkify(html),tags=allowed_tags,attributes=allowed_attrs)
-
+		# Tags deemed safe
+		allowed_tags = [
+		'a','abbr','acronym','b','blockquote','code',
+		'em','i','li','ol','pre','strong','ul','img',
+		'h1','h2','h3','p','br'
+		]
+		# Attributes deemed safe
+		allowed_attrs = {
+		'*':['class'],
+		'a':['href','rel'],
+		'img':['src','alt']
+		}
+		# Sanitize HTML
+		html_sanitized = bleach.clean(
+			bleach.linkify(html),
+			tags=allowed_tags,
+			attributes=allowed_attrs
+			)
 		post = Post(title=form.title.data,content=html_sanitized,author=current_user,category=form.category_name.data)
 		db.session.add(post)
 		db.session.commit()
 		flash('Your post has been created!','success')
 		return redirect(url_for('index'))
 	return render_template('create_post.html',title='New Post',form=form,legend='New Post')
-
-
 
 #Edit Post
 @app.route('/post/<int:post_id>')
