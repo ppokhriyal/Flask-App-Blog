@@ -43,7 +43,7 @@ class Post(db.Model):
 	#category = db.relationship('Category',backref=db.backref('posts',lazy=True))
 		
 	def __repr__(self):
-		return f"Post('{self.title}','{self.date_posted}','{self.category}')"
+		return f"Post('{self.title}','{self.date_posted}','{self.content}','{self.category}')"
 
 #class Category(db.Model):
 #	id = db.Column(db.Integer,primary_key=True)

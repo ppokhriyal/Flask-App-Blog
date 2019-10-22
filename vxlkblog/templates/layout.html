@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
+{{mde.css}}
+{{mde.js}}
 	<!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,6 +25,9 @@
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
   	<!-- Brand/logo -->
   		<a class="navbar-brand" href="#">VXL Knowledge Base Blog</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button
   	<!-- Links -->
   		<ul class="navbar-nav ml-auto">
        
@@ -51,11 +56,11 @@
         {% endif %}  
 	</nav>
 	<div class="container pt-4 mt-5">
-		<div class="col-md-10 mx-auto">
+		<div>
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 					{% for category,message in messages %}
-						<div class="alert alert-{{ category }} alert-dismissible">
+						<div class="alert alert-{{ category }} alert-dismissible col-lg-12">
 							<button type="button" class="close" data-dismiss="alert">&times;</button>
 							{{ message }}
 						</div>
@@ -108,7 +113,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>	
-
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>	
 </body>
 </html>

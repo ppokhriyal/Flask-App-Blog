@@ -6,7 +6,7 @@
         <fieldset class="form-group">
             <legend class="border-bottom display-5">Join Today</legend>
         </fieldset>
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.username.label(class="form-control-label") }}
           {% if form.username.errors %}
             {{ form.username(class="form-control form-control-sm col-sm is-invalid") }}
@@ -20,7 +20,7 @@
           {% endif %}
         </div>
 
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.email.label(class="form-control-label") }}
           {% if form.email.errors %}
             {{ form.email(class="form-control form-control-sm col-sm is-invalid") }}
@@ -34,7 +34,7 @@
           {% endif %}  
         </div>
 
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.password.label(class="form-control-label") }}
           {% if form.password.errors %}
             {{ form.password(class="form-control form-control-sm col-sm is-invalid") }}
@@ -48,7 +48,7 @@
           {% endif %}
         </div>
 
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.confirm_password.label(class="form-control-label") }}
           {% if form.confirm_password.errors %}
             {{ form.confirm_password(class="form-control form-control-sm col-sm is-invalid") }}

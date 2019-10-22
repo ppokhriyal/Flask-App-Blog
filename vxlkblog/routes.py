@@ -1,8 +1,11 @@
 import os
+import markdown
 import secrets
+import bleach
+from bleach.sanitizer import Cleaner
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
-from vxlkblog import app, db, bcrypt, mail, login_manager
+from flask import render_template, url_for, flash, redirect, request, abort, session
+from vxlkblog import app, db, bcrypt, mail, login_manager, mde
 from vxlkblog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, RequestRestForm, ResetPasswordForm
 from vxlkblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
@@ -110,14 +113,23 @@ def account():
 @app.route('/post/new',methods=['GET','POST'])
 @login_required
 def new_post():
-	form = PostForm()
+		form = PostForm()
+  	allowed_tags = [ 'a', 'abbr', 'acronym', 'b', 'blockquote', 'code','em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'img','h1', 'h2', 'h3', 'p', 'br' ]
+  	allowed_attrs = {'*': ['class'],'a': ['href', 'rel'],'img': ['src', 'alt'] }
+
 	if form.validate_on_submit():
-		post = Post(title=form.title.data,content=form.content.data,author=current_user,category=form.category_name.data)
+		session['content'] = request.form['content']
+		html = markdown.markdown(request.form['content'])
+		html_sanitized = bleach.clean(bleach.linkify(html),tags=allowed_tags,attributes=allowed_attrs)
+
+		post = Post(title=form.title.data,content=html_sanitized,author=current_user,category=form.category_name.data)
 		db.session.add(post)
 		db.session.commit()
 		flash('Your post has been created!','success')
 		return redirect(url_for('index'))
 	return render_template('create_post.html',title='New Post',form=form,legend='New Post')
+
+
 
 #Edit Post
 @app.route('/post/<int:post_id>')

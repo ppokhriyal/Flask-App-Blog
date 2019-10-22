@@ -3,11 +3,12 @@
 <div class="container pt-5">
     <form method="POST" action="">
       {{ form.hidden_tag() }}
+      {{form.csrf_token }}
         <fieldset class="form-group">
             <legend class="border-bottom">{{ legend }}</legend>
         </fieldset>
 
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.title.label(class="form-control-label") }}
           {% if form.title.errors %}
             {{ form.title(class="form-control form-control-sm col-sm is-invalid") }}
@@ -21,17 +22,18 @@
           {% endif %}  
         </div>
 
-        <div class="form-group w-60 shadow-textarea">
+        <div class="form-group w-60 h-50 shadow-textarea">
           {{ form.content.label(class="form-control-label") }}
           {% if form.content.errors %}
-            {{ form.content(class="form-control form-control-sm col-sm is-invalid") }}
+              {{ form.content(class="form-control form-control-sm col-sm is-invalid") }}
             <div class="invalid-feedback">
               {% for error in form.content.errors %}
                 <span>{{ error }}</span>
               {% endfor %}
             </div>
           {% else %}
-            {{ form.content(class="form-control form-control-sm col-sm",placeholder="Write your new post ..",rows="5") }}  
+              <!--{{ form.content(class="form-control form-control-sm col-md-12",placeholder="Write your new post ..",rows="15") }}-->
+              {{ form.content(class="form-control form-control-sm col-md-12",placeholder="Write your new post ..") }}
           {% endif %}
         </div>
           <div class="form-group">

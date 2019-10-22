@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
+from flask_mde import Mde, MdeField
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField,SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
 from vxlkblog.models import User, Post
+
 
 class RegistrationForm(FlaskForm):
 	username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)])
@@ -52,7 +54,8 @@ class UpdateAccountForm(FlaskForm):
 
 class PostForm(FlaskForm):
 	title = StringField('Title',validators=[DataRequired()])
-	content = TextAreaField('Content',validators=[DataRequired()])
+	content = MdeField('Content',validators=[InputRequired("Input Required"),Length(min=15,max=30000)])
+	#content = TextAreaField('Content',validators=[DataRequired()])
 	category_name = SelectField('Category',choices=[('General','General'),('Citrix','Citrix'),('Vmware','Vmware Horizon'),('Linux','Linux'),('Bash','Bash'),('QT','QT'),('C++','C++'),('RDP','RDP')])
 	submit = SubmitField('Post')
 	
@@ -70,5 +73,7 @@ class ResetPasswordForm(FlaskForm):
 
 	password = PasswordField('Password',validators=[DataRequired()])
 	confirm_password = PasswordField('Confirm Password',validators=[DataRequired(),EqualTo('password')])
-	submit = SubmitField('Reset Password')		
+	submit = SubmitField('Reset Password')
+
+			
 

@@ -6,7 +6,7 @@
         <fieldset class="form-group">
             <legend class="border-bottom display-5">Log In</legend>
         </fieldset>
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.email.label(class="form-control-label") }}
           {% if form.email.errors %}
             {{ form.email(class="form-control form-control-sm col-sm is-invalid",placeholder="@vxlsoftware.com") }}
@@ -20,7 +20,7 @@
           {% endif %}  
         </div>
 
-        <div class="form-group w-50">
+        <div class="form-group w-30">
           {{ form.password.label(class="form-control-label") }}
           {% if form.password.errors %}
             {{ form.password(class="form-control form-control-sm col-sm is-invalid") }}
