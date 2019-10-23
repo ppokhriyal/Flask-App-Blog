@@ -13,9 +13,12 @@
     			<div class="media-body">
     				<h4><a class="article-title" href="{{ url_for('post',post_id=post.id)}}">{{ post.title }}</a></h4>
       				<small class="text-secondary">
-                <a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a> | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="{{ url_for('category',catgname=post.category)}}"><span class="badge badge-pill badge-warning">{{ post.category }}</a></span>
-                <button type="button" class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                <a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a> | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="{{ url_for('category',catgname=post.category)}}"><span class="badge badge-pill badge-warning">{{ post.category }}</a></span> | 
+                <button type="button" class="btn btn-default btn-sm ">
+                  <small class="small"><span class="fas fa-thumbs-up"></span></small>
+                </button>
+                <button type="button" class="btn btn-default btn-sm mt-1">
+                  <small><span class="fas fa-thumbs-down"></span></small>
                 </button>
               </small>
       				<p class=" mt-2 border-top">{{ post.content | safe }}</p> 
