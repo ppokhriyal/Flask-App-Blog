@@ -14,13 +14,13 @@ from flask_mail import Message
 
 #Index Page
 @app.route('/')
-@app.route('/index')
+@app.route('/index',methods=['GET','POST'])
 def index():
+	forward_message = "Moving Forward..."
 	page = request.args.get('page',1,type=int)
 	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
 	len_post = len(Post.query.all())
-	return render_template('index.html',posts=posts,len_post=len_post,title='Index')
-
+	return render_template('index.html',posts=posts,len_post=len_post,title='Index',forward_message=forward_message)
 
 #Register Page
 @app.route('/register',methods=['GET','POST'])

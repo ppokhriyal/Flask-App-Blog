@@ -11,15 +11,20 @@
 			<div class="media border rounded p-3 bg-light mt-4 col-lg-12 mx-auto text-wrap text-break text-justify">
     			<img src="{{ url_for('static',filename='profile_pics/'+ post.author.image_file) }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
     			<div class="media-body">
-    				<h4><a class="article-title" href="{{ url_for('post',post_id=post.id)}}">{{ post.title }}</a></h4>
+    				<h4><a class="article-title text-dark" href="{{ url_for('post',post_id=post.id)}}">{{ post.title }}</a></h4>
       				<small class="text-secondary">
-                <a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a> | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="{{ url_for('category',catgname=post.category)}}"><span class="badge badge-pill badge-warning">{{ post.category }}</a></span> | 
-                <button type="button" class="btn btn-default btn-sm ">
-                  <small class="small"><span class="fas fa-thumbs-up"></span></small>
-                </button>
-                <button type="button" class="btn btn-default btn-sm mt-1">
-                  <small><span class="fas fa-thumbs-down"></span></small>
-                </button>
+                <a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a>
+                | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="{{ url_for('category',catgname=post.category)}}">
+                  <span class="badge badge-pill badge-warning">{{ post.category }}</a></span>
+                |
+                <form action="/index" method="POST" class="form-inline">
+                  <button type="submit" id="likeid" class="btn btn-default btn-sm mb-1">
+                    <small class="small"><span class="fas fa-thumbs-up"></span> {{ forward_message }}</small>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm">
+                    <small><span class="fas fa-thumbs-down"></span></small>
+                  </button>
+                </form>
               </small>
       				<p class=" mt-2 border-top">{{ post.content | safe }}</p> 
     			</div>
