@@ -15,16 +15,22 @@
       				<small class="text-secondary">
                 <a href="{{ url_for('user_posts',username=post.author.username) }}">{{ post.author.username }}</a>
                 | Posted on {{ post.date_posted.strftime('%d-%m-%Y') }} | Category <a href="{{ url_for('category',catgname=post.category)}}">
-                  <span class="badge badge-pill badge-warning">{{ post.category }}</a></span>
-                |
-                <form action="/index" method="POST" class="form-inline">
-                  <button type="submit" id="likeid" class="btn btn-default btn-sm mb-1">
-                    <small class="small"><span class="fas fa-thumbs-up"></span> {{ forward_message }}</small>
-                  </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <small><span class="fas fa-thumbs-down"></span></small>
-                  </button>
-                </form>
+                  <span class="badge badge-pill badge-warning">{{ post.category }}</a></span> | 
+                  {% if current_user.is_authenticated %}
+                  <a href="{{ url_for('like',postid=post.id)}}">
+                    <button type="submit" id="likeid" class="btn btn-default btn-sm mb-1">
+                      <small class="small"><span class="fas fa-thumbs-up mb-1"> {{ post.likes }}</span></small>
+                    </button>
+                  </a>
+                  <a href="{{ url_for('dislike',postid=post.id) }}"> 
+                    <button type="button" class="btn btn-default btn-sm mb-1">
+                      <small><span class="fas fa-thumbs-down p-1 mt-1"> {{ post.dislikes }}</span></small>
+                    </button>
+                  </a>  
+                  {% else %}
+                      <small class="small"><span class="fas fa-thumbs-up p-1 mb-1"> {{ post.likes }}</span></small>  
+                      <small><span class="fas fa-thumbs-down p-1 mt-1"> {{ post.dislikes }}</span></small>
+                  {% endif %}    
               </small>
       				<p class=" mt-2 border-top">{{ post.content | safe }}</p> 
     			</div>
@@ -34,9 +40,9 @@
     {% for page_num in posts.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
       {% if page_num %}
         {% if posts.page == page_num %}
-          <a class="btn btn-info mb-4 mt-3" href="{{ url_for('index',page=page_num)}}">{{ page_num }}</a>
+          <a class="btn btn-info mb-4 mt-2" href="{{ url_for('index',page=page_num)}}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4 mt-3" href="{{ url_for('index',page=page_num)}}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4 mt-2" href="{{ url_for('index',page=page_num)}}">{{ page_num }}</a>
         {% endif %}  
       {% else %}
         ...

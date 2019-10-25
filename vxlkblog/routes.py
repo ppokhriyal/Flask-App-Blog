@@ -16,11 +16,35 @@ from flask_mail import Message
 @app.route('/')
 @app.route('/index',methods=['GET','POST'])
 def index():
-	forward_message = "Moving Forward..."
 	page = request.args.get('page',1,type=int)
 	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
 	len_post = len(Post.query.all())
-	return render_template('index.html',posts=posts,len_post=len_post,title='Index',forward_message=forward_message)
+	return render_template('index.html',posts=posts,len_post=len_post,title='Index')
+
+#Like Post
+@app.route('/vote/like/<int:postid>',methods=['GET','POST'])
+def like(postid):
+	page = request.args.get('page',1,type=int)
+	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
+	len_post = len(Post.query.all())
+	post_likes = Post.query.filter_by(id=postid).first()
+	post_likes.likes = post_likes.likes + 1
+	db.session.add(post_likes)
+	db.session.commit()
+	return render_template('index.html',posts=posts,len_post=len_post,title='Index')
+
+#Dislike Post
+@app.route('/vote/dislike/<int:postid>',methods=['GET','POST'])
+def dislike(postid):
+	page = request.args.get('page',1,type=int)
+	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
+	len_post = len(Post.query.all())
+	post_dislike = Post.query.filter_by(id=postid).first()
+	post_dislike.dislikes = post_dislike.dislikes + 1
+	db.session.add(post_dislike)
+	db.session.commit()
+	return render_template('index.html',posts=posts,len_post=len_post,title='Index')
+
 
 #Register Page
 @app.route('/register',methods=['GET','POST'])
@@ -197,7 +221,6 @@ def user_info_update(user_info_email):
 	form = ResetPasswordForm()
 	user_name = [x[0] for x in db.session.query(User.username).filter(User.email == user_info_email).all()]
 	user_info_dict = {"username": user_name[0],"useremail": user_info_email}
-
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 		user_obj = User.query.filter_by(email=user_info_email).first()
@@ -213,8 +236,6 @@ def category(catgname):
 	total_catg_post = db.session.query(Post).filter(Post.category == catgname).count()
 	page = request.args.get('page',1,type=int)
 	posts = Post.query.filter_by(category=catgname).order_by(Post.date_posted.desc()).paginate(page=page,per_page=4)
-	
-
 	return render_template('category_list.html',title='Categories',catgname=catgname,total_catg_post=total_catg_post,posts=posts)
 
 #User Posts Order
